@@ -3,6 +3,11 @@
     
   </script>
   <body>
-    <script>document.write(location)</script>
+    <script>
+      var hash = window.location.hash;
+      var conf = JSON.parse(decodeURIComponent(hash.substr(1)));
+      document.write(conf);
+      console.log(conf);
+    </script>
   </body>
 </html>
