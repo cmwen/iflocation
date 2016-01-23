@@ -6,8 +6,12 @@
     <script>
       var hash = window.location.hash;
       var conf = JSON.parse(decodeURIComponent(hash.substr(1)));
-      document.write(conf);
+      document.write(JSON.stringify(conf));
       console.log(conf);
+      conf.color = 'white';
+      // var options = { color: 'white', border: true };
+      document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
+
     </script>
   </body>
 </html>
