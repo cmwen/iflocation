@@ -1,17 +1,9 @@
 <html>
   <head>
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
   $(function() {
-    $( "#radio" ).buttonset();
-  });
-  </script>
-  </head>
-  <body>
-    <script>
-      var hash = window.location.hash;
+    var hash = window.location.hash;
       var conf = JSON.parse(decodeURIComponent(hash.substr(1)));
       // document.write(JSON.stringify(conf));
       console.log(conf);
@@ -19,14 +11,14 @@
       conf.color = 'white';
       // var options = { color: 'white', border: true };
       //document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
-    </script>
+  });
+  </script>
+  </head>
+  <body>
+
     
     <form>
-  <div id="radio">
-    <input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label>
-    <input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>
-    <input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
-  </div>
+
   <p>Maker Key: <input type="text" id="makerKey" name="makerKey" placeholder="IFTTT Maker Key"></p>
   <p>Events: <input type="text" id="eventName" name="eventName" placeholder="Enter event name">
   <select multiple></select>
