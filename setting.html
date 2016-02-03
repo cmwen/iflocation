@@ -1,5 +1,17 @@
 <html>
-<body>
-Setting page
-</body>
+  <script>
+    
+  </script>
+  <body>
+    <script>
+      var hash = window.location.hash;
+      var conf = JSON.parse(decodeURIComponent(hash.substr(1)));
+      // document.write(JSON.stringify(conf));
+      console.log(conf);
+      console.log(window.location.search);
+      conf.color = 'white';
+      // var options = { color: 'white', border: true };
+      document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
+    </script>
+  </body>
 </html>
