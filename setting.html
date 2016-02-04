@@ -15,12 +15,12 @@
       if (conf.maker) {
         $('#makerKey').val(conf.maker);
       }
-      console.log(conf.events);
       if (conf.events) {
-        console.log("xxx");
         var eventDiv = $("#eventList");
+        console.log(eventDiv);
         for (var i = 0 ; i < conf.events.length; i ++) {
           eventDiv.add("<div>" + conf.events[i] + "</div>");
+          console.log('aaa');
         }
       }
       
@@ -38,7 +38,7 @@
         conf.values = [];
       });
       $('#addEvent').click(function(){
-        conf.events.push($('#eventName'));
+        conf.events.push($('#eventName').val());
         console.log(conf.events);
         //rerender
       });
