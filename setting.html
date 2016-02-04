@@ -9,11 +9,19 @@
       // document.write(JSON.stringify(conf));
       console.log(conf);
       console.log(window.location.search);
-      conf.color = 'white';
       // var options = { color: 'white', border: true };
       //document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
       
-      $('#save').click(function(){$('#message').text(conf)});
+      if (conf.maker) {
+        $('makerKey').val(conf.maker);
+      }
+      
+      $('#save').click(function(){$('#message').text(JSON.stringify(conf))});
+      $('#reset').click(function(){
+        conf.maker = "";
+        conf.events = [];
+        conf.values = [];
+      });
   });
   </script>
   </head>
