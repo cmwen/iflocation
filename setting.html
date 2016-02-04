@@ -38,7 +38,7 @@
         conf.values = [];
       });
       $('#addEvent').click(function(){
-        conf.events.push($('#eventName').val());
+        conf.events.push({title: $('#eventName').val()});
         console.log(conf.events);
         //rerender
       });
