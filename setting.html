@@ -1,7 +1,10 @@
 <html>
   <head>
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <!--<script src="/components/jquery/dist/jquery.js"></script>-->
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
     <script>
+    
     var conf;
   $(function() {
     var hash = window.location.hash;
@@ -15,47 +18,59 @@
       if (conf.maker) {
         $('#makerKey').val(conf.maker);
       }
-      if (conf.events) {
-        for (var i = 0 ; i < conf.events.length; i ++) {
-          $("#eventList").add("p").css( "background-color", "red" );
-          console.log(conf.events[i].title);
-        }
-      }
       
-      if (conf.valuess) {
-        var valueDiv = $("#valueList");
-        for (var i = 0 ; i < conf.valuess.length; i ++) {
-          valueDiv.add("<div>" + conf.valuess[i] + "</div>");
-        }
-      }
-      
-      $('#save').click(function(){$('#message').text(JSON.stringify(conf))});
+      renderList("#eventList", conf.events);
+      renderList("#valueList", conf.values);
+
+      $('#save').click(function(){
+		  conf.maker = $('#makerKey').val();
+		  $('#message').text(JSON.stringify(conf))
+		        //document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
+
+		  });
+		  
       $('#reset').click(function(){
         conf.maker = "";
         conf.events = [];
         conf.values = [];
+        $('#makerKey').val("");
+        renderList("#eventList", conf.events);
+        renderList("#valueList", conf.values);
       });
       $('#addEvent').click(function(){
         conf.events.push({title: $('#eventName').val()});
-        console.log(conf.events);
-        //rerender
+        renderList("#eventList", conf.events);
+        $('#eventName').val("");
+      });
+      $('#addValue').click(function(){
+        conf.values.push({title: $('#valueName').val()});
+        renderList("#valueList", conf.values);
+        $('#valueName').val("");
       });
   });
+  
+  function renderList(id, values) {
+      if (values) {
+        var listDiv = $(id);
+        listDiv.empty();
+        for (var i = 0 ; i < values.length; i ++) {
+          $(id).append("<div>" + values[i].title +"</div>");
+        }
+      }
+  }
   </script>
   </head>
   <body>
 IFlocation allows you setup the IFTTT Maker Key, Events and Values here, and creates Trigger in your Pebble watch.
-    <script>
-      document.write(JSON.stringify(conf));
-    </script>
+
     <form>
 
   <p>Maker Key: <input type="text" id="makerKey" name="makerKey" placeholder="IFTTT Maker Key"></p>
-  <p>Events: <input type="text" id="eventName" name="eventName" placeholder="Enter event name">
+  <p>Events: <input type="text" id="eventName" name="eventName" placeholder="Event name in Maker channel">
     <a id="addEvent" href="javascript:void(0)">Add</a>
     <div id="eventList"></div>
   </p>
-  <p>Values: <input type="text" id="valueName" name="valueName" placeholder="Enter value">
+  <p>Values: <input type="text" id="valueName" name="valueName" placeholder="Value can be selected in watch app">
     <a id="addValue" href="javascript:void(0)">Add</a>
     <div id="valueList"></div>
   </p>
