@@ -19,8 +19,8 @@
         var eventDiv = $("#eventList");
         console.log(eventDiv);
         for (var i = 0 ; i < conf.events.length; i ++) {
-          eventDiv.add("<div>" + conf.events[i] + "</div>");
-          console.log('aaa');
+          eventDiv.add("<div>" + conf.events[i].title + "</div>");
+          console.log(conf.events[i].title);
         }
       }
       
