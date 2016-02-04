@@ -23,11 +23,21 @@
         }
       }
       
+      if (conf.valuess) {
+        var valueDiv = $("#valueList");
+        for (var i = 0 ; i < conf.valuess.length; i ++) {
+          valueDiv.add("<div>" + conf.valuess[i] + "</div>");
+        }
+      }
+      
       $('#save').click(function(){$('#message').text(JSON.stringify(conf))});
       $('#reset').click(function(){
         conf.maker = "";
         conf.events = [];
         conf.values = [];
+      });
+      $('#addEvent').click(function(){
+        conf.events.push($('#eventName'));
       });
   });
   </script>
@@ -45,7 +55,7 @@ IFlocation allows you setup the IFTTT Maker Key, Events and Values here, and cre
     <div id="eventList"></div>
   </p>
   <p>Values: <input type="text" id="valueName" name="valueName" placeholder="Enter value">
-    <a id="addEvent" href="javascript:void(0)">Add</a>
+    <a id="addValue" href="javascript:void(0)">Add</a>
     <div id="valueList"></div>
   </p>
   <a id="reset" href="javascript:void(0)">Reset</a>
