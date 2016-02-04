@@ -11,6 +11,8 @@
       conf.color = 'white';
       // var options = { color: 'white', border: true };
       //document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
+      
+      $('#save').click(e => {$('#message').text(conf)});
   });
   </script>
   </head>
@@ -27,6 +29,7 @@ IFlocation allows you setup the IFTTT Maker Key, Events and Values here, and cre
   </p>
   Values: Input Here Add
   Remove
+  <a id="save" href="javascript:void(0)">Save</a>
 </form>
 --<div id="message"></div>--
   </body>
