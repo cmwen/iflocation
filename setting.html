@@ -16,10 +16,8 @@
         $('#makerKey').val(conf.maker);
       }
       if (conf.events) {
-        var eventDiv = $("#eventList");
-        console.log(eventDiv);
         for (var i = 0 ; i < conf.events.length; i ++) {
-          eventDiv.add("p").css( "background-color", "red" );
+          $("#eventList").add("p").css( "background-color", "red" );
           console.log(conf.events[i].title);
         }
       }
