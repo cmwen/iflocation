@@ -13,7 +13,14 @@
       //document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(conf));
       
       if (conf.maker) {
-        $('makerKey').val(conf.maker);
+        $('#makerKey').val(conf.maker);
+      }
+      
+      if (conf.events) {
+        var eventDiv = $("#eventList");
+        for (var i = 0 ; i < conf.events.length; i ++) {
+          eventDiv.add("<div>" + conf.events[i] + "</div>");
+        }
       }
       
       $('#save').click(function(){$('#message').text(JSON.stringify(conf))});
