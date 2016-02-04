@@ -15,8 +15,9 @@
       if (conf.maker) {
         $('#makerKey').val(conf.maker);
       }
-      
+      console.log(conf.events);
       if (conf.events) {
+        console.log("xxx");
         var eventDiv = $("#eventList");
         for (var i = 0 ; i < conf.events.length; i ++) {
           eventDiv.add("<div>" + conf.events[i] + "</div>");
@@ -38,6 +39,8 @@
       });
       $('#addEvent').click(function(){
         conf.events.push($('#eventName'));
+        console.log(conf.events);
+        //rerender
       });
   });
   </script>
