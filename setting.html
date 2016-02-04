@@ -2,6 +2,7 @@
   <head>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script>
+    var conf;
   $(function() {
     var hash = window.location.hash;
       conf = JSON.parse(decodeURIComponent(hash.substr(1)));
@@ -30,10 +31,9 @@ IFlocation allows you setup the IFTTT Maker Key, Events and Values here, and cre
   </p>
   <p>Values: <input type="text" id="valueName" name="valueName" placeholder="Enter value">
     <a id="addEvent" href="javascript:void(0)">Add</a>
-    <div id="eventList"></div>
+    <div id="valueList"></div>
   </p>
-  Values: Input Here Add
-  Remove
+  <a id="reset" href="javascript:void(0)">Reset</a>
   <a id="save" href="javascript:void(0)">Save</a>
 </form>
 --<div id="message"></div>--
