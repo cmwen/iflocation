@@ -8,7 +8,12 @@
     var conf;
   $(function() {
     var hash = window.location.hash;
-      conf = JSON.parse(decodeURIComponent(hash.substr(1)));
+    var confRaw = decodeURIComponent(hash.substr(1));
+    if (confRaw) {
+      conf = JSON.parse(confRaw);
+    } else {
+    	conf = {make: '', events:[], values:[]};
+    }
       // document.write(JSON.stringify(conf));
       console.log(conf);
       console.log(window.location.search);
