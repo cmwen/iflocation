@@ -12,7 +12,7 @@
     if (confRaw) {
       conf = JSON.parse(confRaw);
     } else {
-    	conf = {make: '', events:[], values:[]};
+      conf = {make: '', events:[], values:[]};
     }
       // document.write(JSON.stringify(conf));
       console.log(conf);
@@ -42,11 +42,17 @@
         renderList("#valueList", conf.values);
       });
       $('#addEvent').click(function(){
+      	if (!conf.events) {
+      		conf.events = [];
+      	}
         conf.events.push({title: $('#eventName').val()});
         renderList("#eventList", conf.events);
         $('#eventName').val("");
       });
       $('#addValue').click(function(){
+      	if (!conf.values) {
+      		conf.values = [];
+      	}
         conf.values.push({title: $('#valueName').val()});
         renderList("#valueList", conf.values);
         $('#valueName').val("");
