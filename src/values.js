@@ -43,6 +43,7 @@ exports.getValuesMenu = function(event, /** function */ callback) {
   menu.on('select', function(e){
         Vibe.vibrate('short');
 
+    if (e.item.title != 'OK') {
     switch (e.menu.currentValue) {
       case 1:
         iftttTrigger.value.value1 = e.item.title;
@@ -53,6 +54,7 @@ exports.getValuesMenu = function(event, /** function */ callback) {
       case 3:
         iftttTrigger.value.value3 = e.item.title;
         break;
+    }
     }
       e.menu.currentValue ++;
 

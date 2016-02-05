@@ -48,10 +48,10 @@ exports.getTriggersMenu = function(/** function */ callback) {
       e.menu.items(0, []);
   } else {
       var makerUrl = "https://maker.ifttt.com/trigger/" + e.item.event + "/with/key/" + Settings.option(IFTTT.MAKER_KEY);
-    var data = {value1: replaceValue(e.item.value.value1), 
+    var value = {value1: replaceValue(e.item.value.value1), 
                 value2: replaceValue(e.item.value.value2),
                 value3: replaceValue(e.item.value.value3)};
-    console.log(JSON.stringify(data));
+    
     var ajaxCallback = function (data, status, request) {
   if (status == 200) {
               var successMessage = new UI.Card({
@@ -73,8 +73,9 @@ exports.getTriggersMenu = function(/** function */ callback) {
       ajax(
         {
           url: makerUrl,
+          method: 'post',
           type: 'json',
-          data: data
+          data: value
         },
         ajaxCallback , ajaxCallback
       );
