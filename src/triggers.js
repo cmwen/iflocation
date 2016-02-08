@@ -87,6 +87,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
   menu.on('show', function(e){
     if (Settings.data(IFTTT.IFTTT_TRIGGERS_DATA)) {
       e.menu.items(0, Settings.data(IFTTT.IFTTT_TRIGGERS_DATA));
+      e.menu.selection(0, 0);
     }
   });
 
