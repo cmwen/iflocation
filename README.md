@@ -7,6 +7,7 @@ Sign up Pebble developer account at https://cloudpebble.net/, create a Pebble.js
 
 # TODO
 * Use Action bar icons to track the current value
+ * Menu doesn't support action bar icons, might need to use Card to implement Values View
 * Timeline? Wakup?
  * https://github.com/pebble/pebblejs#using-images
  * http://www.w3schools.com/jsref/jsref_obj_date.asp
