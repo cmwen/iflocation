@@ -8,5 +8,8 @@ Sign up Pebble developer account at https://cloudpebble.net/, create a Pebble.js
 # TODO
 * Use Action bar icons to track the current value
 * Timeline? Wakup?
+ * https://github.com/pebble/pebblejs#using-images
+ * http://www.w3schools.com/jsref/jsref_obj_date.asp
 * More Format for location and time
-* 
+* Localization
+ * https://developer.pebble.com/guides/publishing-tools/i18n-guide/
