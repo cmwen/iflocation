@@ -63,7 +63,7 @@ exports.getValuesMenu = function(event, /** function */ callback) {
           e.menu.hide();
         // TODO
           iftttTrigger.title = iftttTrigger.event + "[" + iftttTrigger.value.value1 + "]";
-          iftttTrigger.subtitle  = iftttTrigger.event + "[" + iftttTrigger.value.value1 + "]";
+          iftttTrigger.subtitle  = iftttTrigger.value.value1;
           var events = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
           if (!events) {
             events = [];
