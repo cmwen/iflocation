@@ -4,3 +4,9 @@ IFLocation is a pebbel app that written with Pebble.js. Originally, this is just
 
 # build
 Sign up Pebble developer account at https://cloudpebble.net/, create a Pebble.js project, pulls in all javascript file, then you are ready to go.
+
+# TODO
+* Use Action bar icons to track the current value
+* Timeline? Wakup?
+* More Format for location and time
+* 
