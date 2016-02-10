@@ -6,6 +6,7 @@ var Vibe = require('ui/vibe');
 var Values = require('values');
 var Events = require('events');
 var ajax = require('ajax');
+var Wakeup = require('wakeup');
 
 var IFTTT = require('iftttsettings');
 
@@ -72,6 +73,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
           setTimeout(function(){successMessage.hide();}, 2000);
           Vibe.vibrate('long');
           e.item.history.push(Date.now());
+          predict(e.item.history);
         } else {
           var failedMessage = new UI.Card({
               title: 'Failed',
@@ -109,12 +111,9 @@ exports.getTriggersMenu = function(/** function */ callback) {
   /** Long Select to remove a single trigger */
   menu.on('longSelect', function(e) {
     if (e.sectionIndex == 0) {
-          var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
-      console.log(triggers.toString());
+      var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
       var pos = triggers.indexOf(e.item);
-      console.log("slice:" + pos);
       triggers = triggers.splice(pos, 1);
-      console.log(triggers.toString());
       Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
       e.menu.items(0, triggers);
     }
@@ -133,5 +132,42 @@ function replaceValue(value) {
         return Date.now();
     }
     return value;
+  }
+}
+
+function predict (/*Array*/history) {
+  var threshHold = 30 * 60 * 1000; // half hour
+  if (history && history.length > 3) {
+    var previousTime = 0;
+    var time = [];
+    for (var i = 0; i < history.length; i++) {
+      if (previousTime > 0) {
+        time.push(history[i] - previousTime);
+      }
+      previousTime = history[i];
+    }
+
+    var sum = 0;
+    for (var i = 0; i < time.length; i++) {
+      if (time[i] < threshHold) {
+        sum += time[i];
+      } else {
+        console.log("unable to predict");
+        break;
+      }
+    }
+    var nextTime = sum/tiem.length + Date.now();
+    console.log("Next time: " + nextTime);
+
+    Wakeup.schedule(
+      { time: nextTime },
+        function(e) {
+          if (e.failed) {
+            console.log('Wakeup set failed: ' + e.error);
+          } else  {
+            console.log('Wakeup set! Event ID: ' + e.id);
+          }
+        }
+      )
   }
 }
