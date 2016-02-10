@@ -33,7 +33,10 @@ trigger {
  */
 var ADD_NEW_TRIGGER = 'New Trigger';
 var RESET_TRIGGERS = 'Delete All Triggers';
+var BUG_ME = 'Bug Me:';
 
+// TODO check if there is anyevent for leaving this menu, should do the
+// data persist stuff when user leave this menu
 exports.getTriggersMenu = function(/** function */ callback) {
     var menu = new UI.Menu({
       sections: [

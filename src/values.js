@@ -59,7 +59,6 @@ exports.getValuesMenu = function(event, /** function */ callback) {
     }
       e.menu.currentValue ++;
 
-
       if (e.menu.currentValue > 3 || e.item.title == 'OK') {
           e.menu.hide();
         // TODO
