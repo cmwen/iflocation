@@ -104,17 +104,18 @@ exports.getTriggersMenu = function(/** function */ callback) {
       triggers = triggers.sort(function (a, b) {
           return a.counter < b.counter;
       });
-      e.menu.items(0, Settings.data(IFTTT.IFTTT_TRIGGERS_DATA));
+      e.menu.items(0, triggers);
       e.menu.selection(0, 0);
     }
   });
 
+  /** Long Select to remove a single trigger */
   menu.on('longSelect', function(e) {
     if (e.sectionIndex == 0) {
           var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
       console.log(triggers.toString());
       var pos = triggers.indexOf(e.item);
-      console.log("slice:" + pos;
+      console.log("slice:" + pos);
       triggers = triggers.slice(pos, 1);
       console.log(triggers.toString());
       Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
