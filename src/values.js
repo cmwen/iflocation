@@ -63,18 +63,17 @@ exports.getValuesMenu = function(event, /** function */ callback) {
           e.menu.hide();
         // TODO
           iftttTrigger.title = iftttTrigger.event + "[" + iftttTrigger.value.value1 + "]";
-          iftttTrigger.subtitle  = iftttTrigger.value.value1;
+          iftttTrigger.subtitle  = valueString(iftttTrigger.value);
           var events = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
           if (!events) {
             events = [];
           }
           events.push(iftttTrigger);
           Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , events);
-
-
         callback(e.menu.value);
       } else {
         e.menu.section(0, {title: 'Select Value ' + e.menu.currentValue});
+//         e.menu.action('select', 'images/' + e.menu.currentValue + '.png');
       }
     });
   
@@ -85,4 +84,20 @@ exports.getValuesMenu = function(event, /** function */ callback) {
   });
   
   return menu;
+}
+
+function valueString(value) {
+  var result = '';
+  if (value) {
+    if (value.value1) {
+      result = value.value1;
+    }
+    if (value.value2) {
+      result += ',' + value.value2;
+    }
+    if (value.value3) {
+      result += ',' + value.value3;
+    }
+  } 
+  return result;
 }

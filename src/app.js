@@ -20,12 +20,7 @@ if (!Settings.option(IFTTT.MAKER_KEY)) {
   var main = new UI.Card({
     title: 'ifLocation',
     subtitle: 'No IFTTT settings',
-    body: 'Please open settings on mobile to setup IFTTT maker channel.',
-    action: {
-      up: 'images/1.png',
-      down: 'VALUE_2'
-    }
-    
+    body: 'Please open settings on mobile to setup IFTTT maker channel.'
   });
   main.show();
 } else {

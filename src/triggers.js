@@ -18,6 +18,14 @@ Current Time
 
 Action:
 Done
+
+trigger {
+  title: evnet name + first value,
+  subtitle: three values,
+  value: {value1, value2, value3}, IFTTT maker format
+  counter: trigger tiems, used for sorting,
+  history: [time of last executed], used to predict next trigger, 3 maybe
+}
 */
 
 var ADD_NEW_TRIGGER = 'Add New Trigger';
@@ -89,6 +97,20 @@ exports.getTriggersMenu = function(/** function */ callback) {
       e.menu.items(0, Settings.data(IFTTT.IFTTT_TRIGGERS_DATA));
       e.menu.selection(0, 0);
     }
+  });
+
+  menu.on('longSelect', function(e) {
+    if (e.sectionIndex == 0) {
+          var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
+      console.log(triggers.toString());
+      var pos = triggers.indexOf(e.item);
+      console.log("slice:" + pos;
+     triggers = triggers.slice(pos, 1);
+      console.log(triggers.toString());
+      Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
+      e.menu.items(0, triggers);
+    }
+
   });
 
   return menu;
