@@ -19,8 +19,8 @@ Done
 
 
 exports.getValuesMenu = function(event, /** function */ callback) {
-    
-  var iftttTrigger = {title: event.title, event: event.title, value: {}};
+
+  var iftttTrigger = {title: event.title, event: event.title, value: {}, counter: 0, history:[]};
 
   var menu = new UI.Menu({
     sections: [
@@ -34,12 +34,12 @@ exports.getValuesMenu = function(event, /** function */ callback) {
         }
       ]
     });
-  
+
   menu.currentValue = 1;
-  
+
   var oldItems = menu.items(0);
   menu.items(0, Settings.option(IFTTT.VALUES_KEY).concat(oldItems));
-  
+
   menu.on('select', function(e){
         Vibe.vibrate('short');
 
@@ -58,7 +58,7 @@ exports.getValuesMenu = function(event, /** function */ callback) {
     }
       e.menu.currentValue ++;
 
-      
+
       if (e.menu.currentValue > 3 || e.item.title == 'OK') {
           e.menu.hide();
         // TODO
@@ -76,13 +76,13 @@ exports.getValuesMenu = function(event, /** function */ callback) {
 //         e.menu.action('select', 'images/' + e.menu.currentValue + '.png');
       }
     });
-  
+
   menu.on('show', function(e){
   });
-  
+
   menu.on('hide', function(e) {
   });
-  
+
   return menu;
 }
 
@@ -98,6 +98,6 @@ function valueString(value) {
     if (value.value3) {
       result += ',' + value.value3;
     }
-  } 
+  }
   return result;
 }

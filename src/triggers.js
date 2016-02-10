@@ -71,9 +71,6 @@ exports.getTriggersMenu = function(/** function */ callback) {
           successMessage.show();
           setTimeout(function(){successMessage.hide();}, 2000);
           Vibe.vibrate('long');
-          if (!e.item.history) {
-            e.item.history = [];
-          }
           e.item.history.push(Date.now());
         } else {
           var failedMessage = new UI.Card({
@@ -116,7 +113,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
       console.log(triggers.toString());
       var pos = triggers.indexOf(e.item);
       console.log("slice:" + pos);
-      triggers = triggers.slice(pos, 1);
+      triggers = triggers.splice(pos, 1);
       console.log(triggers.toString());
       Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
       e.menu.items(0, triggers);
