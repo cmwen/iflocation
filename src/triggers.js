@@ -74,6 +74,10 @@ exports.getTriggersMenu = function(/** function */ callback) {
           Vibe.vibrate('long');
           e.item.history.push(Date.now());
           predict(e.item.history);
+          var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
+          var pos = triggers.indexOf(e.item);
+          tigger.splice(pos, 1, e.item);
+          Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
         } else {
           var failedMessage = new UI.Card({
               title: 'Failed',
@@ -156,11 +160,11 @@ function predict (/*Array*/history) {
         break;
       }
     }
-    var nextTime = sum/tiem.length + Date.now();
+    var nextTime = sum/time.length;
     console.log("Next time: " + nextTime);
 
     Wakeup.schedule(
-      { time: nextTime },
+      { time: nextTime/1000 },
         function(e) {
           if (e.failed) {
             console.log('Wakeup set failed: ' + e.error);
@@ -171,3 +175,8 @@ function predict (/*Array*/history) {
       )
   }
 }
+
+// Single wakeup event handler example:
+Wakeup.on('wakeup', function(e) {
+  console.log('Wakeup event! ' + JSON.stringify(e));
+});
