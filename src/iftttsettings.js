@@ -11,9 +11,9 @@ exports.VALUES_KEY = VALUES_KEY;
 exports.IFTTT_TRIGGERS_DATA = 'iftttTriggers';
 exports.CURRENT_LOCATION = 'cachedLocation';
 
-Settings.option(MAKER_KEY, "NIrl7nzQXbYFYHNAHpxQQ");
-Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
-Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
+// Settings.option(MAKER_KEY, "aaa");
+// Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
+// Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
 //Set a configurable with the open callback
 Settings.config(
   { url: 'http://cmwen.github.io/iflocation/setting.html' },
