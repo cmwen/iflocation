@@ -20,6 +20,7 @@ Done
 
 exports.getValuesMenu = function(event, /** function */ callback) {
 
+  // Trigger format see triggers.js
   var iftttTrigger = {title: event.title, event: event.title, value: {}, counter: 0, history:[]};
 
   var menu = new UI.Menu({

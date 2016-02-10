@@ -10,7 +10,6 @@ var Wakeup = require('wakeup');
 
 var IFTTT = require('iftttsettings');
 
-
 /**
 Default Value:
 Location
@@ -29,17 +28,20 @@ trigger {
 }
 */
 
-var ADD_NEW_TRIGGER = 'Add New Trigger';
-var RESET_TRIGGERS = "Reset Triggers";
+/**
+ * Default Menu items
+ */
+var ADD_NEW_TRIGGER = 'New Trigger';
+var RESET_TRIGGERS = 'Delete All Triggers';
 
 exports.getTriggersMenu = function(/** function */ callback) {
-      var menu = new UI.Menu({
+    var menu = new UI.Menu({
       sections: [
         {
-          title: "Saved Triggers"
+          title: "Triggers"
         },
         {
-          title: "New Trigger",
+          title: "Actions",
           items: [
             { title: ADD_NEW_TRIGGER }, {title: RESET_TRIGGERS}
           ]
@@ -47,7 +49,6 @@ exports.getTriggersMenu = function(/** function */ callback) {
       ]
     });
 
-  var iftttEvent = {title: '', value: {}};
   menu.on('select', function(e) {
     if (e.item.title == ADD_NEW_TRIGGER) {
       var eventMenu = Events.getEventsMenu();
@@ -63,6 +64,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
       var value = {value1: replaceValue(e.item.value.value1),
                 value2: replaceValue(e.item.value.value2),
                 value3: replaceValue(e.item.value.value3)};
+      // Callback function for ajax call, showing Ok or Fail message
       var ajaxCallback = function (data, status, request) {
         if (status == 200) {
               var successMessage = new UI.Card({
@@ -71,9 +73,17 @@ exports.getTriggersMenu = function(/** function */ callback) {
             });
           successMessage.show();
           setTimeout(function(){successMessage.hide();}, 2000);
+
+          // vibrate to indicate it's success.
           Vibe.vibrate('short');
+          // Update history
+          // TODO only keep 7(7 a week?) logs, make sure it updates the right item
           e.item.history.push(Date.now());
+
+          // Guess what's the next time you will trigger this event
           predict(e.item.history);
+
+          // Update triggers
           var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
           var pos = triggers.indexOf(e.item);
           triggers.splice(pos, 1, e.item);
@@ -97,22 +107,24 @@ exports.getTriggersMenu = function(/** function */ callback) {
         ajaxCallback , ajaxCallback
       );
     }
-//     navigator.geolocation.getCurrentPosition(function(position) {
-//     console.log(position.coords.latitude, position.coords.longitude);
   });
 
+  // Update triggers from data store when this menu is showing
   menu.on('show', function(e){
     var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
     if (triggers) {
+      // Sort the triggers by the counter, so the most frequent used will go first
       triggers = triggers.sort(function (a, b) {
           return a.counter < b.counter;
       });
+
       e.menu.items(0, triggers);
       e.menu.selection(0, 0);
     }
   });
 
-  /** Long Select to remove a single trigger */
+  // Long Select to remove a single trigger
+  // TODO not working probably
   menu.on('longSelect', function(e) {
     if (e.sectionIndex == 0) {
       var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
@@ -126,6 +138,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
   return menu;
 }
 
+// TODO more format?
 function replaceValue(value) {
   if (value) {
     if (value == "Location") {
@@ -139,8 +152,13 @@ function replaceValue(value) {
   }
 }
 
+// Try to find the next trigger time, the algorithm is simple, if all the time
+// between all history is below our threshHold(30mins), then assume is predictable
+// Then use the avariege time to guest the next trigger time
+// TODO this should be a opt in function
 function predict (/*Array*/history) {
   var threshHold = 30 * 60 * 1000; // half hour
+
   if (history && history.length > 3) {
     var previousTime = 0;
     var time = [];
@@ -164,10 +182,12 @@ function predict (/*Array*/history) {
     /** in seconds */
     var nextTime = (sum/time.length) / 1000;
     if (nextTime < 60) {
+      // Pebble wake up must be at least 1 minute
       nextTime = 60;
     }
     console.log("Next time: " + nextTime);
 
+    // TODO store the Wakeup id, and when this app is launched, we can preselect the trigger
     Wakeup.schedule(
       { time: nextTime },
         function(e) {
