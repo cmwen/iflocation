@@ -38,14 +38,14 @@ exports.getTriggersMenu = function(/** function */ callback) {
           title: "Saved Triggers"
         },
         {
-          title: "New Trigger", 
+          title: "New Trigger",
           items: [
             { title: ADD_NEW_TRIGGER }, {title: RESET_TRIGGERS}
           ]
         }
       ]
     });
-  
+
   var iftttEvent = {title: '', value: {}};
   menu.on('select', function(e) {
     if (e.item.title == ADD_NEW_TRIGGER) {
@@ -54,30 +54,36 @@ exports.getTriggersMenu = function(/** function */ callback) {
     } else if (e.item.title == RESET_TRIGGERS) {
       Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , null);
       e.menu.items(0, []);
-  } else {
+    } else {
+      // increse the counter for selected trigger
+      e.item.counter++;
+
       var makerUrl = "https://maker.ifttt.com/trigger/" + e.item.event + "/with/key/" + Settings.option(IFTTT.MAKER_KEY);
-    var value = {value1: replaceValue(e.item.value.value1), 
+      var value = {value1: replaceValue(e.item.value.value1),
                 value2: replaceValue(e.item.value.value2),
                 value3: replaceValue(e.item.value.value3)};
-    
-    var ajaxCallback = function (data, status, request) {
-  if (status == 200) {
+      var ajaxCallback = function (data, status, request) {
+        if (status == 200) {
               var successMessage = new UI.Card({
               title: 'Success',
               body: e.item.title + ' was triggered successfully.'
             });
           successMessage.show();
           setTimeout(function(){successMessage.hide();}, 2000);
-
           Vibe.vibrate('long');
-  } else {
+          if (!e.item.history) {
+            e.item.history = [];
+          }
+          e.item.history.push(Date.now());
+        } else {
           var failedMessage = new UI.Card({
               title: 'Failed',
               body: 'Unable to trigger ' + e.item.title + ', please check your setting and try again.'
             });
           failedMessage.show();
-  }
-}
+        }
+      }
+
       ajax(
         {
           url: makerUrl,
@@ -91,9 +97,13 @@ exports.getTriggersMenu = function(/** function */ callback) {
 //     navigator.geolocation.getCurrentPosition(function(position) {
 //     console.log(position.coords.latitude, position.coords.longitude);
   });
-  
+
   menu.on('show', function(e){
-    if (Settings.data(IFTTT.IFTTT_TRIGGERS_DATA)) {
+    var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
+    if (triggers) {
+      triggers = triggers.sort(function (a, b) {
+          return a.counter < b.counter;
+      });
       e.menu.items(0, Settings.data(IFTTT.IFTTT_TRIGGERS_DATA));
       e.menu.selection(0, 0);
     }
@@ -105,12 +115,11 @@ exports.getTriggersMenu = function(/** function */ callback) {
       console.log(triggers.toString());
       var pos = triggers.indexOf(e.item);
       console.log("slice:" + pos;
-     triggers = triggers.slice(pos, 1);
+      triggers = triggers.slice(pos, 1);
       console.log(triggers.toString());
       Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
       e.menu.items(0, triggers);
     }
-
   });
 
   return menu;
