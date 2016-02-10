@@ -76,7 +76,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
           predict(e.item.history);
           var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
           var pos = triggers.indexOf(e.item);
-          tigger.splice(pos, 1, e.item);
+          triggers.splice(pos, 1, e.item);
           Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
         } else {
           var failedMessage = new UI.Card({
@@ -160,11 +160,16 @@ function predict (/*Array*/history) {
         break;
       }
     }
-    var nextTime = sum/time.length;
+
+    /** in seconds */
+    var nextTime = (sum/time.length) / 1000;
+    if (nextTime < 60) {
+      nextTime = 60;
+    }
     console.log("Next time: " + nextTime);
 
     Wakeup.schedule(
-      { time: nextTime/1000 },
+      { time: nextTime },
         function(e) {
           if (e.failed) {
             console.log('Wakeup set failed: ' + e.error);

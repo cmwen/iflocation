@@ -11,7 +11,7 @@ exports.VALUES_KEY = VALUES_KEY;
 exports.IFTTT_TRIGGERS_DATA = 'iftttTriggers';
 exports.CURRENT_LOCATION = 'cachedLocation';
 
-Settings.option(MAKER_KEY, "aaa");
+Settings.option(MAKER_KEY, "NIrl7nzQXbYFYHNAHpxQQ");
 Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
 Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
 //Set a configurable with the open callback
@@ -28,6 +28,6 @@ Settings.config(
     // Show the raw response if parsing failed
     if (e.failed) {
       console.log(e.response);
-    }    
+    }
   }
 );
