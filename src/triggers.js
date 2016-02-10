@@ -71,7 +71,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
             });
           successMessage.show();
           setTimeout(function(){successMessage.hide();}, 2000);
-          Vibe.vibrate('long');
+          Vibe.vibrate('short');
           e.item.history.push(Date.now());
           predict(e.item.history);
           var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
@@ -183,5 +183,6 @@ function predict (/*Array*/history) {
 
 // Single wakeup event handler example:
 Wakeup.on('wakeup', function(e) {
+  Vibe.vibrate('short');
   console.log('Wakeup event! ' + JSON.stringify(e));
 });
