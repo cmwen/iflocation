@@ -80,8 +80,11 @@ exports.getTriggersMenu = function(/** function */ callback) {
           // vibrate to indicate it's success.
           Vibe.vibrate('short');
           // Update history
-          // TODO only keep 7(7 a week?) logs, make sure it updates the right item
+          // Only keep 7(7 a week?) logs, make sure it updates the right item
           e.item.history.push(Date.now());
+          if (e.item.history.length > 7) {
+            e.item.history = e.item.history.shift();
+          }
 
           // Guess what's the next time you will trigger this event
           predict(e.item.history);
@@ -125,6 +128,10 @@ exports.getTriggersMenu = function(/** function */ callback) {
       e.menu.selection(0, 0);
     }
   });
+
+  menu.on('hide', function(e)) {
+
+  }
 
   // Long Select to remove a single trigger
   // TODO not working probably
