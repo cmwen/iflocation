@@ -3,7 +3,6 @@
 var UI = require('ui');
 var Settings = require('settings');
 var Vibe = require('ui/vibe');
-var Values = require('values');
 var Events = require('events');
 var ajax = require('ajax');
 var Predict = require('predict');
@@ -62,10 +61,11 @@ exports.getTriggersMenu = function( /** function */ callback) {
     } else if (e.item.title == RESET_TRIGGERS) {
       Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, null);
       e.menu.items(0, []);
-    } else if (e.item.title.startWith(PREDICT)) {
+    } else if (e.item.title.indexOf(PREDICT) == 0) {
       var enabled = IFTTT.predict();
       IFTTT.predict(!enabled);
       e.item.title = PREDICT + IFTTT.predict();
+      console.log(IFTTT.predicT());
     } else {
       // increse the counter for selected trigger
       e.item.counter++;
@@ -115,7 +115,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
           });
           failedMessage.show();
         }
-      }
+      };
 
       ajax({
           url: makerUrl,
@@ -149,7 +149,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
   // Long Select to remove a single trigger
   // TODO not working probably
   menu.on('longSelect', function(e) {
-    if (e.sectionIndex == 0) {
+    if (e.sectionIndex === 0) {
       var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
       var pos = triggers.indexOf(e.item);
       triggers = triggers.splice(pos, 1);
@@ -159,7 +159,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
   });
 
   return menu;
-}
+};
 
 // TODO more format?
 function replaceValue(value) {

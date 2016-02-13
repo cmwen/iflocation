@@ -41,13 +41,13 @@
                 "type": "bitmap"
             },
             {
-                "file": "images/1.png",
-                "name": "IMAGES_1_PNG",
+                "file": "images/2.png",
+                "name": "IMAGES_2_PNG",
                 "type": "bitmap"
             },
             {
-                "file": "images/2.png",
-                "name": "IMAGES_2_PNG",
+                "file": "images/1.png",
+                "name": "IMAGES_1_PNG",
                 "type": "bitmap"
             }
         ]

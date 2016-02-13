@@ -13,7 +13,7 @@ exports.VALUES_KEY = VALUES_KEY;
 exports.IFTTT_TRIGGERS_DATA = 'iftttTriggers';
 exports.CURRENT_LOCATION = 'cachedLocation';
 
-// Settings.option(MAKER_KEY, "aaa");
+Settings.option(MAKER_KEY, "aaa");
 // Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
 // Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
 //Set a configurable with the open callback
@@ -36,12 +36,16 @@ Settings.config(
 
 exports.enabledBetaFunction = function() {
   return true;
-}
+};
 
-exports.predict = function(/*boolean*/, p_enable) {
+exports.predict = function(/*boolean*/ p_enable) {
+  if (Settings.option(PREDICT_KEY) === undefined) {
+    Settings.option(PREDICT_KEY, true);
+  }
+  
   if (p_enable === undefined) {
     return Settings.option(PREDICT_KEY);
   } else {
     return Settings.option(PREDICT_KEY, p_enable);
   }
-}
+};

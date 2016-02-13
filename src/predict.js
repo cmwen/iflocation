@@ -22,7 +22,7 @@ exports.predict = function ( /*Array*/ history) {
     }
 
     var sum = 0;
-    for (var i = 0; i < time.length; i++) {
+    for (i = 0; i < time.length; i++) {
       if (time[i] < threshHold) {
         sum += time[i];
       } else {
@@ -50,9 +50,9 @@ exports.predict = function ( /*Array*/ history) {
           console.log('Wakeup set! Event ID: ' + e.id);
         }
       }
-    )
-  }
+    );
 }
+};
 
 // Single wakeup event handler example:
 Wakeup.on('wakeup', function(e) {
