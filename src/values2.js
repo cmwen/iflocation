@@ -31,9 +31,14 @@ exports.getValuesMenu = function(event, /** function */ callback) {
     });
 
 
-  menu.on('select', function(e){
+  menu.on('click', 'select', function(e){
     console.log('select');
   });
+  
+  menu.on('click', 'back', function(e){
+    console.log('back');
+  });
+
 
   menu.on('show', function(e){
     console.log('show');
