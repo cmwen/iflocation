@@ -4,10 +4,12 @@ var MAKER_KEY = 'maker';
 var EVENTS_KEY = 'events';
 var VALUES_KEY = 'values';
 
+var PREDICT_KEY = 'predict_key';
 
 exports.MAKER_KEY = MAKER_KEY;
 exports.EVENTS_KEY = EVENTS_KEY;
 exports.VALUES_KEY = VALUES_KEY;
+
 exports.IFTTT_TRIGGERS_DATA = 'iftttTriggers';
 exports.CURRENT_LOCATION = 'cachedLocation';
 
@@ -31,3 +33,15 @@ Settings.config(
     }
   }
 );
+
+exports.enabledBetaFunction = function() {
+  return true;
+}
+
+exports.predict = function(/*boolean*/, p_enable) {
+  if (p_enable === undefined) {
+    return Settings.option(PREDICT_KEY);
+  } else {
+    return Settings.option(PREDICT_KEY, p_enable);
+  }
+}

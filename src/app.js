@@ -28,7 +28,7 @@ if (!Settings.option(IFTTT.MAKER_KEY)) {
 } else {
   var triggersMenu = Triggers.getTriggersMenu();
   triggersMenu.show();
-
+  
   // Cache location
   // TODO check if triggers are using location, if not, don't bother
   navigator.geolocation.getCurrentPosition(function(position) {

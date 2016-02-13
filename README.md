@@ -12,5 +12,7 @@ Sign up Pebble developer account at https://cloudpebble.net/, create a Pebble.js
  * https://github.com/pebble/pebblejs#using-images
  * http://www.w3schools.com/jsref/jsref_obj_date.asp
 * More Format for location and time
+* Timer or Duration as a value?
 * Localization
  * https://developer.pebble.com/guides/publishing-tools/i18n-guide/
+* Backward compatablility

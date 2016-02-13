@@ -6,7 +6,7 @@ var Vibe = require('ui/vibe');
 var Values = require('values');
 var Events = require('events');
 var ajax = require('ajax');
-var Wakeup = require('wakeup');
+var Predict = require('predict');
 
 var IFTTT = require('iftttsettings');
 
@@ -33,49 +33,60 @@ trigger {
  */
 var ADD_NEW_TRIGGER = 'New Trigger';
 var RESET_TRIGGERS = 'Delete All Triggers';
-var BUG_ME = 'Bug Me:';
+var PREDICT = 'Predict:';
 
 // TODO check if there is anyevent for leaving this menu, should do the
 // data persist stuff when user leave this menu
-exports.getTriggersMenu = function(/** function */ callback) {
-    var menu = new UI.Menu({
-      sections: [
-        {
-          title: "Triggers"
-        },
-        {
-          title: "Actions",
-          items: [
-            { title: ADD_NEW_TRIGGER }, {title: RESET_TRIGGERS}
-          ]
-        }
-      ]
-    });
+exports.getTriggersMenu = function( /** function */ callback) {
+  var menu = new UI.Menu({
+    sections: [{
+      title: "Triggers"
+    }, {
+      title: "Actions",
+      items: [{
+        title: ADD_NEW_TRIGGER,
+        subtitle: "Add a new Trigger"
+      }, {
+        title: RESET_TRIGGERS
+      }, {
+        title: PREDICT + IFTTT.predict(),
+        subtitle: "Predcit next trigger"
+      }]
+    }]
+  });
 
   menu.on('select', function(e) {
     if (e.item.title == ADD_NEW_TRIGGER) {
       var eventMenu = Events.getEventsMenu();
       eventMenu.show();
     } else if (e.item.title == RESET_TRIGGERS) {
-      Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , null);
+      Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, null);
       e.menu.items(0, []);
+    } else if (e.item.title.startWith(PREDICT)) {
+      var enabled = IFTTT.predict();
+      IFTTT.predict(!enabled);
+      e.item.title = PREDICT + IFTTT.predict();
     } else {
       // increse the counter for selected trigger
       e.item.counter++;
 
       var makerUrl = "https://maker.ifttt.com/trigger/" + e.item.event + "/with/key/" + Settings.option(IFTTT.MAKER_KEY);
-      var value = {value1: replaceValue(e.item.value.value1),
-                value2: replaceValue(e.item.value.value2),
-                value3: replaceValue(e.item.value.value3)};
+      var value = {
+        value1: replaceValue(e.item.value.value1),
+        value2: replaceValue(e.item.value.value2),
+        value3: replaceValue(e.item.value.value3)
+      };
       // Callback function for ajax call, showing Ok or Fail message
-      var ajaxCallback = function (data, status, request) {
+      var ajaxCallback = function(data, status, request) {
         if (status == 200) {
-              var successMessage = new UI.Card({
-              title: 'Success',
-              body: e.item.title + ' was triggered successfully.'
-            });
+          var successMessage = new UI.Card({
+            title: 'Success',
+            body: e.item.title + ' was triggered successfully.'
+          });
           successMessage.show();
-          setTimeout(function(){successMessage.hide();}, 2000);
+          setTimeout(function() {
+            successMessage.hide();
+          }, 2000);
 
           // vibrate to indicate it's success.
           Vibe.vibrate('short');
@@ -86,42 +97,44 @@ exports.getTriggersMenu = function(/** function */ callback) {
             e.item.history = e.item.history.shift();
           }
 
-          // Guess what's the next time you will trigger this event
-          predict(e.item.history);
+
+          if (IFTTT.predict()) {
+            // Guess what's the next time you will trigger this event
+            Predict.predict(e.item.history);
+          }
 
           // Update triggers
           var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
           var pos = triggers.indexOf(e.item);
           triggers.splice(pos, 1, e.item);
-          Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
+          Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
         } else {
           var failedMessage = new UI.Card({
-              title: 'Failed',
-              body: 'Unable to trigger ' + e.item.title + ', please check your setting and try again.'
-            });
+            title: 'Failed',
+            body: 'Unable to trigger ' + e.item.title + ', please check your setting and try again.'
+          });
           failedMessage.show();
         }
       }
 
-      ajax(
-        {
+      ajax({
           url: makerUrl,
           method: 'post',
           type: 'json',
           data: value
         },
-        ajaxCallback , ajaxCallback
+        ajaxCallback, ajaxCallback
       );
     }
   });
 
   // Update triggers from data store when this menu is showing
-  menu.on('show', function(e){
+  menu.on('show', function(e) {
     var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
     if (triggers) {
       // Sort the triggers by the counter, so the most frequent used will go first
-      triggers = triggers.sort(function (a, b) {
-          return a.counter < b.counter;
+      triggers = triggers.sort(function(a, b) {
+        return a.counter < b.counter;
       });
 
       e.menu.items(0, triggers);
@@ -129,9 +142,9 @@ exports.getTriggersMenu = function(/** function */ callback) {
     }
   });
 
-  menu.on('hide', function(e)) {
+  menu.on('hide', function(e) {
 
-  }
+  });
 
   // Long Select to remove a single trigger
   // TODO not working probably
@@ -140,7 +153,7 @@ exports.getTriggersMenu = function(/** function */ callback) {
       var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
       var pos = triggers.indexOf(e.item);
       triggers = triggers.splice(pos, 1);
-      Settings.data(IFTTT.IFTTT_TRIGGERS_DATA , triggers);
+      Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
       e.menu.items(0, triggers);
     }
   });
@@ -156,63 +169,9 @@ function replaceValue(value) {
 
       return position.coords.latitude + "," + position.coords.longitude;
     } else if (value == "Time") {
-        return Date.now();
+      return Date.now();
     }
     return value;
   }
 }
 
-// Try to find the next trigger time, the algorithm is simple, if all the time
-// between all history is below our threshHold(30mins), then assume is predictable
-// Then use the avariege time to guest the next trigger time
-// TODO this should be a opt in function
-function predict (/*Array*/history) {
-  var threshHold = 30 * 60 * 1000; // half hour
-
-  if (history && history.length > 3) {
-    var previousTime = 0;
-    var time = [];
-    for (var i = 0; i < history.length; i++) {
-      if (previousTime > 0) {
-        time.push(history[i] - previousTime);
-      }
-      previousTime = history[i];
-    }
-
-    var sum = 0;
-    for (var i = 0; i < time.length; i++) {
-      if (time[i] < threshHold) {
-        sum += time[i];
-      } else {
-        console.log("unable to predict");
-        break;
-      }
-    }
-
-    /** in seconds */
-    var nextTime = (sum/time.length) / 1000;
-    if (nextTime < 60) {
-      // Pebble wake up must be at least 1 minute
-      nextTime = 60;
-    }
-    console.log("Next time: " + nextTime);
-
-    // TODO store the Wakeup id, and when this app is launched, we can preselect the trigger
-    Wakeup.schedule(
-      { time: nextTime },
-        function(e) {
-          if (e.failed) {
-            console.log('Wakeup set failed: ' + e.error);
-          } else  {
-            console.log('Wakeup set! Event ID: ' + e.id);
-          }
-        }
-      )
-  }
-}
-
-// Single wakeup event handler example:
-Wakeup.on('wakeup', function(e) {
-  Vibe.vibrate('short');
-  console.log('Wakeup event! ' + JSON.stringify(e));
-});
