@@ -65,7 +65,8 @@ exports.getTriggersMenu = function( /** function */ callback) {
       var enabled = IFTTT.predict();
       IFTTT.predict(!enabled);
       e.item.title = PREDICT + IFTTT.predict();
-      console.log(IFTTT.predicT());
+      e.menu.item(e.sectionIndex, e.itemIndex, {title: PREDICT + IFTTT.predict()});
+      console.log(IFTTT.predict());
     } else {
       // increse the counter for selected trigger
       e.item.counter++;
