@@ -50,3 +50,18 @@ exports.predict = function(/*boolean*/ p_enable) {
     return Settings.option(PREDICT_KEY, p_enable);
   }
 };
+
+exports.values = function (/**/ values) {
+  var result;
+  if (values === undefined) {
+    result = Settings.option(VALUES_KEY);
+  } else {
+    result = Settings.option(VALUES_KEY, values);
+  }  
+
+  if (!result) {
+    result = [];
+  }
+  return result;
+}
+ 

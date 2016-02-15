@@ -6,6 +6,7 @@ var Vibe = require('ui/vibe');
 var Events = require('events');
 var ajax = require('ajax');
 var Predict = require('predict');
+var Detail = require('triggerDetail');
 
 var IFTTT = require('iftttsettings');
 
@@ -147,16 +148,18 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
   });
 
-  // Long Select to remove a single trigger
-  // TODO not working probably
+  // Long Select to show detail of a trigger
   menu.on('longSelect', function(e) {
-    if (e.sectionIndex === 0) {
-      var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
-      var pos = triggers.indexOf(e.item);
-      triggers = triggers.splice(pos, 1);
-      Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
-      e.menu.items(0, triggers);
-    }
+    // TODO not working probably
+    // if (e.sectionIndex === 0) {
+    //   var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
+    //   var pos = triggers.indexOf(e.item);
+    //   triggers = triggers.splice(pos, 1);
+    //   Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
+    //   e.menu.items(0, triggers);
+    // }
+    var detail = Detail.detailView(e.menu.item);
+    detail.show();
   });
 
   return menu;
@@ -175,4 +178,3 @@ function replaceValue(value) {
     return value;
   }
 }
-
