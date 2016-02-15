@@ -10,6 +10,7 @@ var Predict = require('predict');
 var IFTTT = require('iftttsettings');
 
 /** Detail view for Triggers */
+// TODO Shows Wakeup as well
 exports.detailView = function (/*obejct*/ trigger) {
   var body = "";
   if (trigger.value) {
