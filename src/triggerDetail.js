@@ -1,13 +1,6 @@
 'use strict';
 
 var UI = require('ui');
-var Settings = require('settings');
-var Vibe = require('ui/vibe');
-var Events = require('events');
-var ajax = require('ajax');
-var Predict = require('predict');
-
-var IFTTT = require('iftttsettings');
 
 /** Detail view for Triggers */
 // TODO Shows Wakeup as well
@@ -35,7 +28,7 @@ exports.detailView = function (/*obejct*/ trigger) {
     for (var i = 0; i < trigger.history.length; i ++) {
       var date = new Date(trigger.history[i]);
       // TODO use the interval to decide the format
-      body += "\n" + date.toLocaleDateString();
+      body += "\n" + date.toLocaleString();
     }
   }
 
