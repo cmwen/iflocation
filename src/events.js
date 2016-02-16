@@ -1,7 +1,7 @@
 'use strict';
 
 var Settings = require('settings');
-var Values = require('values2');
+var Values = require('values');
 var UI = require('ui');
 var IFTTT = require('iftttsettings');
 

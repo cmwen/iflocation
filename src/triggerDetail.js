@@ -14,27 +14,33 @@ var IFTTT = require('iftttsettings');
 exports.detailView = function (/*obejct*/ trigger) {
   var body = "";
   if (trigger.value) {
-    body += "Value1:" + trigger.value.value1;
-    body += "Value2:" + trigger.value.value2;
-    body += "Value3:" + trigger.value.value3;
+    if (trigger.value.value1) {
+      body += "Value1:" + trigger.value.value1;
+    }
+    if (trigger.value.value2) {
+      body += "\nValue2:" + trigger.value.value2;
+    }
+
+    if (trigger.value.value3) {
+      body += "\nValue3:" + trigger.value.value3;
+    }
   }
 
   if (trigger.counter) {
-    body += "Count:" + trigger.counter;
+    body += "\nCount:" + trigger.counter;
   }
 
   if (trigger.history) {
-    body += "History:";
+    body += "\nHistory:";
     for (var i = 0; i < trigger.history.length; i ++) {
       var date = new Date(trigger.history[i]);
       // TODO use the interval to decide the format
-      body += date.toLocaleDateString();
+      body += "\n" + date.toLocaleDateString();
     }
   }
 
   var card = new UI.Card({
     title: trigger.title,
-    subtitle: trigger.subtitle,
     scrollable: true,
     body: body
   });

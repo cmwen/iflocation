@@ -158,7 +158,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
     //   Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
     //   e.menu.items(0, triggers);
     // }
-    var detail = Detail.detailView(e.menu.item);
+    var detail = Detail.detailView(e.item);
     detail.show();
   });
 
