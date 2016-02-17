@@ -40,7 +40,7 @@ exports.predict = function ( /*Array*/ history, /*fucntion*/ callback) {
 
     // TODO store the Wakeup id, and when this app is launched, we can preselect the trigger
     Wakeup.schedule({
-        time: nextTime
+        time: Date.now() / 1000 + nextTime
       },
       function(e) {
         if (e.failed) {

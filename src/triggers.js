@@ -7,6 +7,8 @@ var Events = require('events');
 var ajax = require('ajax');
 var Predict = require('predict');
 var Detail = require('triggerDetail');
+var Wakeup = require('wakeup');
+
 
 var IFTTT = require('iftttsettings');
 
@@ -93,8 +95,12 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
           // vibrate to indicate it's success.
           Vibe.vibrate('short');
+          
           // Update history
           // Only keep 7(7 a week?) logs, make sure it updates the right item
+          if (!e.item.history) {
+            e.item.history = [];
+          }
           e.item.history.push(Date.now());
           if (e.item.history.length > 7) {
             e.item.history = e.item.history.shift();
@@ -103,8 +109,11 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
           if (IFTTT.predict()) {
             // Guess what's the next time you will trigger this event
-            Predict.predict(e.item.history, function(e){
-              e.item.wakeupId = e.id;
+            Predict.predict(e.item.history, function(innerE){
+              if (e.item.wakeupId) {
+                Wakeup.cancel(e.item.wakeupId);
+              }
+              e.item.wakeupId = innerE.id;
             });
           }
 

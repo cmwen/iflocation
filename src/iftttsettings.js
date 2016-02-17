@@ -13,9 +13,21 @@ exports.VALUES_KEY = VALUES_KEY;
 exports.IFTTT_TRIGGERS_DATA = 'iftttTriggers';
 exports.CURRENT_LOCATION = 'cachedLocation';
 
-// Settings.option(MAKER_KEY, "aaa");
-// Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
-// Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
+/*Settings.option(MAKER_KEY, "cfE1_JYs_ybdmuif7zYE-z");
+Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
+Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
+
+var triggers = [];
+
+triggers.push({
+  title: "Test Trigger",
+  subtitle: "Test Trigger[value1]",
+  value: {value1: "value1", value2: "value2", value3: "value3"}, 
+  counter: 2,
+  history: [14000, 15000, 16000, 17000],
+  wakeupId: -1
+});
+Settings.data('iftttTriggers', triggers);*/
 
 //Set a configurable with the open callback
 Settings.config(
