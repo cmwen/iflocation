@@ -95,7 +95,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
           // vibrate to indicate it's success.
           Vibe.vibrate('short');
-          
+
           // Update history
           // Only keep 7(7 a week?) logs, make sure it updates the right item
           if (!e.item.history) {
@@ -159,14 +159,6 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
   // Long Select to show detail of a trigger
   menu.on('longSelect', function(e) {
-    // TODO not working probably
-    // if (e.sectionIndex === 0) {
-    //   var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
-    //   var pos = triggers.indexOf(e.item);
-    //   triggers = triggers.splice(pos, 1);
-    //   Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
-    //   e.menu.items(0, triggers);
-    // }
     var detail = Detail.detailView(e.item);
     detail.show();
   });

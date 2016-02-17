@@ -15,6 +15,7 @@ var TRIGGERS_DATA = 'iftttTriggers';
 exports.IFTTT_TRIGGERS_DATA = TRIGGERS_DATA;
 exports.CURRENT_LOCATION = 'cachedLocation';
 
+// TODO add a mock data module
 /*Settings.option(MAKER_KEY, "cfE1_JYs_ybdmuif7zYE-z");
 Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
 Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
@@ -24,7 +25,7 @@ var triggers = [];
 triggers.push({
   title: "Test Trigger",
   subtitle: "Test Trigger[value1]",
-  value: {value1: "value1", value2: "value2", value3: "value3"}, 
+  value: {value1: "value1", value2: "value2", value3: "value3"},
   counter: 2,
   history: [14000, 15000, 16000, 17000],
   wakeupId: -1
@@ -33,14 +34,16 @@ Settings.data(TRIGGERS_DATA, triggers);*/
 
 //Set a configurable with the open callback
 Settings.config(
-  { url: 'http://cmwen.github.io/iflocation/setting.html' },
-  function(e) {
-//     console.log('opening configurable');
+  {
+    url: 'http://cmwen.github.io/iflocation/setting.html'
   },
   function(e) {
-//     console.log('closed configurable');
+    //     console.log('opening configurable');
+  },
+  function(e) {
+    //     console.log('closed configurable');
     // Show the parsed response
-//     console.log(JSON.stringify(e.options));
+    //     console.log(JSON.stringify(e.options));
 
     // Show the raw response if parsing failed
     if (e.failed) {
@@ -53,11 +56,11 @@ exports.enabledBetaFunction = function() {
   return true;
 };
 
-exports.predict = function(/*boolean*/ p_enable) {
+exports.predict = function( /*boolean*/ p_enable) {
   if (Settings.option(PREDICT_KEY) === undefined) {
     Settings.option(PREDICT_KEY, true);
   }
-  
+
   if (p_enable === undefined) {
     return Settings.option(PREDICT_KEY);
   } else {
@@ -65,13 +68,13 @@ exports.predict = function(/*boolean*/ p_enable) {
   }
 };
 
-exports.values = function (/**/ values) {
+exports.values = function( /**/ values) {
   var result;
   if (values === undefined) {
     result = Settings.option(VALUES_KEY);
   } else {
     result = Settings.option(VALUES_KEY, values);
-  }  
+  }
 
   if (!result) {
     result = [];
@@ -79,29 +82,26 @@ exports.values = function (/**/ values) {
   return result;
 };
 
-exports.getTriggers = function(){
+exports.getTriggers = function() {
   return Settings.data(TRIGGERS_DATA);
 };
 
-exports.deleteTrigger = function (/**trigger*/ trigger) {
-      var triggers = Settings.data(TRIGGERS_DATA);
-      var pos = triggers.indexOf(trigger);
+exports.deleteTrigger = function( /**trigger*/ trigger) {
+  var triggers = Settings.data(TRIGGERS_DATA);
+  var pos = triggers.indexOf(trigger);
   console.log("Delete trigger at : " + pos);
-      triggers.splice(pos, 1);
-      Settings.data(TRIGGERS_DATA, triggers);
+  triggers.splice(pos, 1);
+  Settings.data(TRIGGERS_DATA, triggers);
 }
 
-exports.updateTrigger = function (/**Object*/ trigger) {
-           // Update triggers
-          var triggers = Settings.data(TRIGGERS_DATA);
-          var pos = triggers.indexOf(trigger);
-          if (pos >= 0) {
-          triggers.splice(pos, 1, trigger);
-          Settings.data(TRIGGERS_DATA, triggers);
-          } else {
-            console.log("Unable to find trigger to update");
-          }
-
- 
+exports.updateTrigger = function( /**Object*/ trigger) {
+  // Update triggers
+  var triggers = Settings.data(TRIGGERS_DATA);
+  var pos = triggers.indexOf(trigger);
+  if (pos >= 0) {
+    triggers.splice(pos, 1, trigger);
+    Settings.data(TRIGGERS_DATA, triggers);
+  } else {
+    console.log("Unable to find trigger to update");
+  }
 }
- 
