@@ -114,6 +114,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
                 Wakeup.cancel(e.item.wakeupId);
               }
               e.item.wakeupId = innerE.id;
+              //TODO not persist
             });
           }
 
