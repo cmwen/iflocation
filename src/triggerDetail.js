@@ -39,7 +39,7 @@ exports.detailView = function (/*obejct*/ trigger) {
   if (trigger.wakeupId) {
     var storeWakeup = Wakeup.get(trigger.wakeupId);
     if (storeWakeup) {
-      var nextTime = new Date(storeWakeup.time);
+      var nextTime = new Date(storeWakeup.time * 1000);
       body += "\nNext Wakeup:\n" + nextTime.toLocaleString(navigator.language, options);
     }
   }
