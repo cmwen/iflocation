@@ -7,7 +7,7 @@ var Vibe = require('ui/vibe');
 // Try to find the next trigger time, the algorithm is simple, if all the time
 // between all history is below our threshHold(30mins), then assume is predictable
 // Then use the avariege time to guest the next trigger time
-exports.predict = function ( /*Array*/ history) {
+exports.predict = function ( /*Array*/ history, /*fucntion*/ callback) {
   var threshHold = 30 * 60 * 1000; // half hour
 
   if (history && history.length > 3) {
@@ -47,6 +47,7 @@ exports.predict = function ( /*Array*/ history) {
           console.log('Wakeup set failed: ' + e.error);
         } else {
           console.log('Wakeup set! Event ID: ' + e.id);
+          callback(e);
         }
       }
     );

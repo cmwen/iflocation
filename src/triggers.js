@@ -25,6 +25,7 @@ trigger {
   value: {value1, value2, value3}, IFTTT maker format
   counter: trigger tiems, used for sorting,
   history: [time of last executed], used to predict next trigger, 3 maybe
+  wakeupId: id to get he wakeup
 }
 */
 
@@ -102,7 +103,9 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
           if (IFTTT.predict()) {
             // Guess what's the next time you will trigger this event
-            Predict.predict(e.item.history);
+            Predict.predict(e.item.history, function(e){
+              e.item.wakeupId = e.id;
+            });
           }
 
           // Update triggers
