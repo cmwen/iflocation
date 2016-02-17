@@ -2,6 +2,10 @@
 
 var UI = require('ui');
 var Wakeup = require('wakeup');
+var IFTTT = require('iftttsettings');
+var Vibe = require('ui/vibe');
+
+
 
 
 /** Detail view for Triggers */
@@ -47,11 +51,16 @@ exports.detailView = function (/*obejct*/ trigger) {
   var card = new UI.Card({
     title: trigger.title,
     scrollable: true,
-    body: body
+    body: body,
+    action: {
+      select: 'images/if.png'
+    }
   });
 
   card.on('click', 'select', function(e){
-    //TODO Delete Here?
+    IFTTT.deleteTrigger(trigger);
+    Vibe.vibrate('short');
+    card.hide();
   });
 
   return card;

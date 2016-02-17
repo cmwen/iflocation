@@ -114,15 +114,11 @@ exports.getTriggersMenu = function( /** function */ callback) {
                 Wakeup.cancel(e.item.wakeupId);
               }
               e.item.wakeupId = innerE.id;
-              //TODO not persist
+              IFTTT.updateTrigger(e.item);
+
             });
           }
-
-          // Update triggers
-          var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
-          var pos = triggers.indexOf(e.item);
-          triggers.splice(pos, 1, e.item);
-          Settings.data(IFTTT.IFTTT_TRIGGERS_DATA, triggers);
+          IFTTT.updateTrigger(e.item);
         } else {
           var failedMessage = new UI.Card({
             title: 'Failed',
@@ -145,7 +141,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
 
   // Update triggers from data store when this menu is showing
   menu.on('show', function(e) {
-    var triggers = Settings.data(IFTTT.IFTTT_TRIGGERS_DATA);
+    var triggers = IFTTT.getTriggers();
     if (triggers) {
       // Sort the triggers by the counter, so the most frequent used will go first
       triggers = triggers.sort(function(a, b) {

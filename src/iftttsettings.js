@@ -10,7 +10,9 @@ exports.MAKER_KEY = MAKER_KEY;
 exports.EVENTS_KEY = EVENTS_KEY;
 exports.VALUES_KEY = VALUES_KEY;
 
-exports.IFTTT_TRIGGERS_DATA = 'iftttTriggers';
+var TRIGGERS_DATA = 'iftttTriggers';
+
+exports.IFTTT_TRIGGERS_DATA = TRIGGERS_DATA;
 exports.CURRENT_LOCATION = 'cachedLocation';
 
 /*Settings.option(MAKER_KEY, "cfE1_JYs_ybdmuif7zYE-z");
@@ -27,7 +29,7 @@ triggers.push({
   history: [14000, 15000, 16000, 17000],
   wakeupId: -1
 });
-Settings.data('iftttTriggers', triggers);*/
+Settings.data(TRIGGERS_DATA, triggers);*/
 
 //Set a configurable with the open callback
 Settings.config(
@@ -75,5 +77,31 @@ exports.values = function (/**/ values) {
     result = [];
   }
   return result;
+};
+
+exports.getTriggers = function(){
+  return Settings.data(TRIGGERS_DATA);
+};
+
+exports.deleteTrigger = function (/**trigger*/ trigger) {
+      var triggers = Settings.data(TRIGGERS_DATA);
+      var pos = triggers.indexOf(trigger);
+  console.log("Delete trigger at : " + pos);
+      triggers.splice(pos, 1);
+      Settings.data(TRIGGERS_DATA, triggers);
+}
+
+exports.updateTrigger = function (/**Object*/ trigger) {
+           // Update triggers
+          var triggers = Settings.data(TRIGGERS_DATA);
+          var pos = triggers.indexOf(trigger);
+          if (pos >= 0) {
+          triggers.splice(pos, 1, trigger);
+          Settings.data(TRIGGERS_DATA, triggers);
+          } else {
+            console.log("Unable to find trigger to update");
+          }
+
+ 
 }
  
