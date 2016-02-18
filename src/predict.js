@@ -4,11 +4,15 @@ var Wakeup = require('wakeup');
 var IFTTT = require('iftttsettings');
 var Vibe = require('ui/vibe');
 
-// Try to find the next trigger time, the algorithm is simple, if all the time
-// between all history is below our threshHold(30mins), then assume is predictable
-// Then use the avariege time to guest the next trigger time
+// Try to find the next trigger time, the algorithm is simple,
+// Use the avariege time to guest the next trigger time
+// TODO only predict it's everything or every hours
 exports.predict = function ( /*Array*/ history, /*fucntion*/ callback) {
-  var threshHold = 30 * 60 * 1000; // half hour
+  var PERIOD_AN_HOUR = 60 * 60 * 1000;
+  var PERIOD_A_DAY = 24 * PERIOD_AN_HOUR;
+  var PERIOD_A_WEEK = 7 * PERIOD_A_DAY;
+  var PERIOD_A_MONTH = 30 * PERIOD_A_DAY;
+  var PERIOD_A_YEAR = 365 * PERIOD_A_DAY;
 
   if (history && history.length > 3) {
     var previousTime = 0;
@@ -22,12 +26,7 @@ exports.predict = function ( /*Array*/ history, /*fucntion*/ callback) {
 
     var sum = 0;
     for (i = 0; i < time.length; i++) {
-      if (time[i] < threshHold) {
-        sum += time[i];
-      } else {
-        console.log("unable to predict");
-        break;
-      }
+      sum += time[i];
     }
 
     /** in seconds */
