@@ -28,6 +28,9 @@ if (!Settings.option(IFTTT.MAKER_KEY)) {
 } else {
   var triggersMenu = Triggers.getTriggersMenu();
   triggersMenu.show();
+// Code to test triggerCard
+//   var triggersMenu = Triggers.getQuickTriggerCard(IFTTT.getTriggers()[0]);
+//   triggersMenu.show();
   
   // Cache location
   // TODO check if triggers are using location, if not, don't bother

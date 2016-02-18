@@ -16,21 +16,21 @@ exports.IFTTT_TRIGGERS_DATA = TRIGGERS_DATA;
 exports.CURRENT_LOCATION = 'cachedLocation';
 
 // TODO add a mock data module
-/*Settings.option(MAKER_KEY, "cfE1_JYs_ybdmuif7zYE-z");
-Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
-Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
+// Settings.option(MAKER_KEY, "maker_key");
+// Settings.option(EVENTS_KEY, [{title: 'aaaaaa'},  {title: 'bbbbbbb'}]);
+// Settings.option(VALUES_KEY, [{title: 'ccccccc'} , {title: 'ddddddd'}]);
 
-var triggers = [];
+// var triggers = [];
 
-triggers.push({
-  title: "Test Trigger",
-  subtitle: "Test Trigger[value1]",
-  value: {value1: "value1", value2: "value2", value3: "value3"},
-  counter: 2,
-  history: [14000, 15000, 16000, 17000],
-  wakeupId: -1
-});
-Settings.data(TRIGGERS_DATA, triggers);*/
+// triggers.push({
+//   title: "Test Trigger",
+//   subtitle: "Test Trigger[value1]",
+//   value: {value1: "value1", value2: "value2", value3: "value3"},
+//   counter: 2,
+//   history: [1455760547636 , 1455770647636 , 1455780747636 , 1455790847636 ],
+//   wakeupId: -1
+// });
+// Settings.data(TRIGGERS_DATA, triggers);
 
 //Set a configurable with the open callback
 Settings.config(

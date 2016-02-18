@@ -53,7 +53,7 @@ exports.detailView = function (/*obejct*/ trigger) {
     scrollable: true,
     body: body,
     action: {
-      select: 'images/if.png'
+      select: 'images/delete.png'
     }
   });
 

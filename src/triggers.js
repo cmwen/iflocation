@@ -72,70 +72,7 @@ exports.getTriggersMenu = function( /** function */ callback) {
       e.menu.item(e.sectionIndex, e.itemIndex, {title: PREDICT + IFTTT.predict()});
 //       console.log(IFTTT.predict());
     } else {
-      // increse the counter for selected trigger
-      e.item.counter++;
-
-      var makerUrl = "https://maker.ifttt.com/trigger/" + e.item.event + "/with/key/" + Settings.option(IFTTT.MAKER_KEY);
-      var value = {
-        value1: replaceValue(e.item.value.value1),
-        value2: replaceValue(e.item.value.value2),
-        value3: replaceValue(e.item.value.value3)
-      };
-      // Callback function for ajax call, showing Ok or Fail message
-      var ajaxCallback = function(data, status, request) {
-        if (status == 200) {
-          var successMessage = new UI.Card({
-            title: 'Success',
-            body: e.item.title + ' was triggered successfully.'
-          });
-          successMessage.show();
-          setTimeout(function() {
-            successMessage.hide();
-          }, 2000);
-
-          // vibrate to indicate it's success.
-          Vibe.vibrate('short');
-
-          // Update history
-          // Only keep 7(7 a week?) logs, make sure it updates the right item
-          if (!e.item.history) {
-            e.item.history = [];
-          }
-          e.item.history.push(Date.now());
-          if (e.item.history.length > 7) {
-            e.item.history = e.item.history.shift();
-          }
-
-
-          if (IFTTT.predict()) {
-            // Guess what's the next time you will trigger this event
-            Predict.predict(e.item.history, function(innerE){
-              if (e.item.wakeupId) {
-                Wakeup.cancel(e.item.wakeupId);
-              }
-              e.item.wakeupId = innerE.id;
-              IFTTT.updateTrigger(e.item);
-
-            });
-          }
-          IFTTT.updateTrigger(e.item);
-        } else {
-          var failedMessage = new UI.Card({
-            title: 'Failed',
-            body: 'Unable to trigger ' + e.item.title + ', please check your setting and try again.'
-          });
-          failedMessage.show();
-        }
-      };
-
-      ajax({
-          url: makerUrl,
-          method: 'post',
-          type: 'json',
-          data: value
-        },
-        ajaxCallback, ajaxCallback
-      );
+      triggerEvent(e.item);
     }
   });
 
@@ -166,6 +103,86 @@ exports.getTriggersMenu = function( /** function */ callback) {
   return menu;
 };
 
+exports.getQuickTriggerCard = function( /** object */ trigger) {
+  var card = new UI.Card({
+    title: trigger.title,
+    body: 'Tap to trigger' + trigger.subtitle
+  });
+  
+  card.on('accelTap', function(e) {
+     triggerEvent(trigger);
+  });
+  return card;
+};
+
+function triggerEvent(/*Object*/ trigger) {
+      // increse the counter for selected trigger
+      trigger.counter++;
+
+      var makerUrl = "https://maker.ifttt.com/trigger/" + trigger.event + "/with/key/" + Settings.option(IFTTT.MAKER_KEY);
+      var value = {
+        value1: replaceValue(trigger.value.value1),
+        value2: replaceValue(trigger.value.value2),
+        value3: replaceValue(trigger.value.value3)
+      };
+      // Callback function for ajax call, showing Ok or Fail message
+      var ajaxCallback = function(data, status, request) {
+        if (status == 200) {
+          var successMessage = new UI.Card({
+            title: 'Success',
+            body: trigger.title + ' was triggered successfully.'
+          });
+          successMessage.show();
+          setTimeout(function() {
+            successMessage.hide();
+          }, 2000);
+
+          // vibrate to indicate it's success.
+          Vibe.vibrate('short');
+
+          // Update history
+          // Only keep 7(7 a week?) logs, make sure it updates the right item
+          if (!trigger.history) {
+            trigger.history = [];
+          }
+          trigger.history.push(Date.now());
+          if (trigger.history.length > 7) {
+            trigger.history = trigger.history.shift();
+          }
+
+
+          if (IFTTT.predict()) {
+            // Guess what's the next time you will trigger this event
+            Predict.predict(trigger.history, function(innerE){
+              if (trigger.wakeupId) {
+                Wakeup.cancel(trigger.wakeupId);
+              }
+              trigger.wakeupId = innerE.id;
+              IFTTT.updateTrigger(trigger);
+
+            });
+          }
+          IFTTT.updateTrigger(trigger);
+        } else {
+          var failedMessage = new UI.Card({
+            title: 'Failed',
+            body: 'Unable to trigger ' + trigger.title + ', please check your setting and try again.'
+          });
+          failedMessage.show();
+        }
+      };
+
+      ajax({
+          url: makerUrl,
+          method: 'post',
+          type: 'json',
+          data: value
+        },
+        ajaxCallback, ajaxCallback
+      );
+  
+};
+
 // TODO more format?
 function replaceValue(value) {
   if (value) {
@@ -179,3 +196,4 @@ function replaceValue(value) {
     return value;
   }
 }
+

@@ -30,6 +30,11 @@
                 "type": "font"
             },
             {
+                "file": "images/delete.png",
+                "name": "IMAGES_DELETE_PNG",
+                "type": "bitmap"
+            },
+            {
                 "file": "images/if.png",
                 "menuIcon": true,
                 "name": "IMAGES_IF_PNG",
