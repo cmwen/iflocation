@@ -17,6 +17,7 @@ Default Value:
 Location
 Current Date
 Current Time
+Goole maps URL
 
 Action:
 Done
@@ -192,6 +193,10 @@ function replaceValue(value) {
       return position.coords.latitude + "," + position.coords.longitude;
     } else if (value == "Time") {
       return Date.now();
+    } else if (value == "Google maps") {
+      var position = Settings.data(IFTTT.CURRENT_LOCATION);
+      
+      return "https://maps.google.com/maps?q=loc:" + position.coords.latitude + "," + position.coords.longitude;
     }
     return value;
   }
